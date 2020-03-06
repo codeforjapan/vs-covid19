@@ -1,0 +1,187 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<link rel="apple-touch-icon" href="supportmenu.png"/>
+<meta property="og:image" content="supportmenu.png"/>
+<meta name="format-detection" content="telephone=no"/>
+<title>VS COVID-19 企業による支援リスト</title>
+<script src="https://fukuno.jig.jp/fukuno2.js"></script>
+<script>"use strict"
+const fetchGoogleSpreadSheet2 = async function(key) {
+	const csvurl = `https://docs.google.com/spreadsheets/d/e/${key}/pub?gid=0&single=true&output=csv`
+	const csv = await fetchViaProxy(csvurl, 'utf-8')
+	const data = convertCSVtoArray(csv)
+	//data.shift()
+	return csv2json(data)
+}
+window.onload = async function() {
+	const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
+	const data = await fetchGoogleSpreadSheet2(key)
+//	console.log(data[0])
+
+	const items = []
+	let bkkey = null
+	const show = function() {
+		const key = searchbox.value
+		if (bkkey == key)
+			return
+		bkkey = key
+		clear(main)
+		document.location.hash = '#' + encodeURIComponent(key)
+		for (const d of data) {
+			if (key) {
+				let flg = false
+				for (const name in d) {
+					if (d[name].indexOf(key) >= 0) {
+						flg = true
+						break
+					}
+				}
+				if (!flg)
+					continue
+			}
+			const div = create('div')
+			div.className = "item"
+			/*
+/*
+分野: "教育、学習支援"
+サービス分類: "サービス提供"
+キーワード: "プログラミング学習"
+サービス名称: "スプリンギン・フェス シーズン1"
+対象者: "個人への提供"
+開始日: "2020-03-02"
+終了日: "2020-04-05"
+期間備考: ""
+無料/有料: "無料"
+導入支援有無: ""
+企業等: "株式会社しくみデザイン"
+詳細: "スプリンギンは無料のビジュアルプログラミングアプリ。「スプリンギン・フェス シーズン1」は休校中でも自宅などでプログラミングに楽しく取り組めるオンラインイベントで、これまでの学びの成果を発揮できるプログラミングコンテストや無料のプログラミング講座のライブ動画配信などを行います。"
+発表日付: "3/2/2020"
+URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
+情報源: "ネット公開情報"
+産業分類: "農業、林業"
+支援内容: "サービス提供"
+有無: "有"
+*/
+// <ruby>${d['http://xmlns.com/foaf/0.1/#name']}<rt>${d['name_yomi']}</rt></ruby>
+			div.innerHTML = `
+				<h2>${d['サービス名称']} by ${d['企業等']}</h2>
+				<div class=type>${d['分野']}</div>
+				<div class=service>${d['サービス分類']}</div>
+				<div class=keyword>${d['キーワード']}</div>
+				<div class=target>${d['対象者']}</div>
+				<div class=description>${d['詳細']}</div>
+				<div class=description>無料/有料: ${d['無料/有料']}</div>
+				<div class=span>${d['開始日']}〜${d['終了日']}</div>
+				<div class=id>情報源 ${d['情報源']}</div>
+				<div class=url><a href=${d['URL']}>${d['URL']}</a></div>
+			`
+			const SET = { '.type': '分野', '.service': 'サービス分類', '.keyword': 'キーワード', '.target': "対象者" }
+			for (const s in SET) {
+				const sname = SET[s]
+				div.querySelector(s).onclick = function() {
+					searchbox.value = d[sname]
+					show()
+				}
+			}
+			main.appendChild(div)
+		}
+	}
+	searchbox.onkeyup = searchbox.onchange = show
+	btnclear.onclick = function() {
+		searchbox.value = ''
+		show()
+	}
+	if (document.location.hash.length > 1) {
+		searchbox.value = decodeURIComponent(document.location.hash.substring(1))
+	}
+
+	show()
+}
+</script>
+<style>
+body {
+	font-family: sans-serif;
+	margin: 0;
+	background-color: #F7F8F4;
+}
+input[type=text] {
+	width: 50vw;
+	margin: .5em .2em 0em 1em;
+	font-size: 24px;
+	border: 2px solid black;
+	line-height: 1.3em;
+	padding: 0.1em .3em;
+}
+button {
+	margin: .5em .2em 0em .2em;
+	font-size: 24px;
+	border: 2px solid black;
+	line-height: 1.3em;
+}
+h1 {
+	margin: 0;
+	padding: .8em .3em;
+	background-color: #F7F8F4;
+	color: #C24845;
+	text-align: center;
+	font-size: 4vw;
+}
+h2 {
+	background-color: #F7F8F4;
+	color: #C24845;
+	padding: .5em .5em .5em .5em;
+	margin: 0;
+}
+.item {
+	border: 5px solid #C24845;
+	background-color: #F7F8F4;
+	padding: 0;
+	margin: 1em;
+	line-height: 1.8em;
+}
+.item > div {
+	margin: .5em;
+}
+.type, .service, .target, .keyword {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 0 .2em;
+	font-size: 80%;
+	line-height: 1.8em;
+	background-color: white;
+	margin: .5em 0;
+}
+.searchboxid {
+	text-align: center;
+}
+.description {
+}
+.place {
+}
+.dete {
+}
+#src {
+	margin: .5em;
+}
+a {
+	color: gray !important;
+}
+</style>
+</head>
+<body>
+
+<h1 id=title>VS COVID-19 企業による支援リスト</h1>
+<div class="searchboxid">
+<input type=text id=searchbox placeholder="フィルター"><button id=btnclear>クリア</button>
+</div>
+<div id="main"></div>
+
+<div id="src">
+DATA: CC BY 企業による支援<br>
+APP： CC BY <a href='https://fukuno.jig.jp/2781'>fukuno.jig.jp</a><br>
+</div>
+
+</div>
+
+</body>
+</html>
