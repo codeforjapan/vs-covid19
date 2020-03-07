@@ -72,7 +72,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 				<div class=description>${d['詳細']}</div>
 				<div class=description>費用等: ${d['無料/有料']}</div>
 				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
-				<div class=id>情報源 ${d['情報源']}</div>
+				<div class=id>情報源: ${d['情報源']}</div>
 				<div class=url><a href=${d['URL']}>${d['URL']}</a></div>
 			`
 			const SET = { '.type': '分野', '.service': 'サービス分類', '.keyword': 'キーワード', '.target': "対象者" }
@@ -125,6 +125,13 @@ h1 {
 	color: #C24845;
 	text-align: center;
 	font-size: 4vw;
+	padding-right: 10vw;
+
+	background-image: url("maincharacter.png");
+	background-repeat: no-repeat;
+	background-position: right;
+	background-size: auto 100%;
+
 }
 h2 {
 	background-color: #F7F8F4;
@@ -133,7 +140,7 @@ h2 {
 	margin: 0;
 }
 .item {
-	border: 5px solid #C24845;
+	border: 5px solid #4F9087;
 	background-color: #F7F8F4;
 	padding: 0;
 	margin: 1em;
@@ -170,7 +177,7 @@ a {
 </head>
 <body>
 
-<h1 id=title>VS COVID-19 企業による支援リスト</h1>
+<h1 id=title>VS COVID-19<br>企業による支援リスト</h1>
 <div class="searchboxid">
 <input type=text id=searchbox placeholder="フィルター"><button id=btnclear>クリア</button>
 </div>
@@ -179,6 +186,7 @@ a {
 <div id="src">
 DATA: CC BY Code for Japan <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/edit#gid=0>企業などによる支援一覧</a> *提供されているサービスを公開資料を基に整理したものであり、支援サービスをすべて網羅しているわけではありません。また、空欄は公開情報に明確に情報が記載されていないため空欄にしており、その内容がないというわけではありません。またサービスの問い合わせ等は直接支援企業にお問い合わせ下さい。<br>
 APP： CC BY Code for Japan, <a href=https://github.com/codeforjapan/supportmenu-vs-covid19>src on GitHub</a> (<a href='https://fukuno.jig.jp/'>@taisukef</a>)<br>
+CHAR: CC BY <a href=https://twitter.com/inuno__ke>Shimoken</a><br>
 </div>
 
 </div>
