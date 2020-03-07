@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-<link rel="apple-touch-icon" href="supportmenu.png"/>
-<meta property="og:image" content="supportmenu.png"/>
+<link rel="apple-touch-icon" href="vscovid19.png"/>
+<meta property="og:image" content="vscovid19.png"/>
 <meta name="format-detection" content="telephone=no"/>
 <title>VS COVID-19 企業による支援リスト</title>
 <script src="https://fukuno.jig.jp/fukuno2.js"></script>
@@ -64,16 +64,21 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 */
 // <ruby>${d['http://xmlns.com/foaf/0.1/#name']}<rt>${d['name_yomi']}</rt></ruby>
 			div.innerHTML = `
-				<h2>${d['サービス名称']} by ${d['企業等']}</h2>
+				<h2>${d['サービス名称']}</h2>
+				<div class=description>${d['詳細']}</div>
+				<div class=from>提供: ${d['企業等']}</div>
+				<div class=fee>費用等: ${d['無料/有料']}</div>
+				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
+				<div class=id>情報源: ${d['情報源']}</div>
+
+				<div class=tags>
 				<div class=type>${d['分野']}</div>
 				<div class=service>${d['サービス分類']}</div>
 				<div class=keyword>${d['キーワード']}</div>
 				<div class=target>${d['対象者']}</div>
-				<div class=description>${d['詳細']}</div>
-				<div class=description>費用等: ${d['無料/有料']}</div>
-				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
-				<div class=id>情報源: ${d['情報源']}</div>
-				<div class=url><a href=${d['URL']}>${d['URL']}</a></div>
+				</div>
+
+				<div class=url><a href=${d['URL']}>アクセスしてみる</a></div>
 			`
 			const SET = { '.type': '分野', '.service': 'サービス分類', '.keyword': 'キーワード', '.target': "対象者" }
 			for (const s in SET) {
@@ -87,9 +92,11 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 		}
 	}
 	searchbox.onkeyup = searchbox.onchange = show
-	btnclear.onclick = function() {
-		searchbox.value = ''
-		show()
+	if (window['btnclear']) {
+		btnclear.onclick = function() {
+			searchbox.value = ''
+			show()
+		}
 	}
 	if (document.location.hash.length > 1) {
 		searchbox.value = decodeURIComponent(document.location.hash.substring(1))
@@ -102,11 +109,11 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 body {
 	font-family: sans-serif;
 	margin: 0;
-	background-color: #F7F8F4;
+	background-color: #F6C744;
 }
 input[type=text] {
 	width: 50vw;
-	margin: .5em .2em 0em 1em;
+	margin: .5em .2em 0.2em .5em;
 	font-size: 24px;
 	border: 2px solid black;
 	line-height: 1.3em;
@@ -120,48 +127,59 @@ button {
 }
 h1 {
 	margin: 0;
-	padding: .8em .3em;
-	background-color: #F7F8F4;
-	color: #C24845;
+	padding: .8em .3em 0.1em .3em;
+	color: white;
 	text-align: center;
-	font-size: 4vw;
-	padding-right: 10vw;
-
-	background-image: url("maincharacter.png");
-	background-repeat: no-repeat;
-	background-position: right;
-	background-size: auto 100%;
-
+	font-size: 7vw;
+}
+.subtitle {
+	color: #333;
+	font-size: 3vw;
 }
 h2 {
 	background-color: #F7F8F4;
-	color: #C24845;
-	padding: .5em .5em .5em .5em;
+	padding: .2em 0em .5em 0em;
 	margin: 0;
 }
 .item {
-	border: 5px solid #4F9087;
-	background-color: #F7F8F4;
-	padding: 0;
+	background-color: #F5F5F5;
+	padding: 1em;
 	margin: 1em;
 	line-height: 1.8em;
 }
 .item > div {
-	margin: .5em;
+/*	margin: .5em;*/
 }
-.type, .service, .target, .keyword {
-	display: inline-block;
-	border: 1px solid black;
-	padding: 0 .2em;
-	font-size: 80%;
-	line-height: 1.8em;
-	background-color: white;
-	margin: .5em 0;
+.url {
+	background-color: #F6C744;
+	border-radius: 2vw;
+	font-weight: bold;
+	text-align: center;
+	padding: .5em;
+	margin-bottom: 1em;
+}
+.url > a {
+	text-decoration: none;
+	color: black !important;
 }
 .searchboxid {
 	text-align: center;
 }
 .description {
+	margin-bottom: .8em;
+}
+.tags {
+	text-align: center;
+	margin: .6em;
+}
+.tags > div {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 0 .3em;
+	font-size: 80%;
+	line-height: 1.8em;
+	background-color: white;
+	margin: .5em 0.2em;
 }
 .place {
 }
@@ -170,23 +188,26 @@ h2 {
 #src {
 	margin: .5em;
 }
-a {
-	color: gray !important;
+#src > a {
+	color: black !important;
+}
+.append {
+	font-size: 70%;
 }
 </style>
 </head>
 <body>
 
-<h1 id=title>VS COVID-19<br>企業による支援リスト</h1>
+<h1 id=title>VS COVID-19<div class=subtitle>企業による支援リスト</div></h1>
 <div class="searchboxid">
-<input type=text id=searchbox placeholder="フィルター"><button id=btnclear>クリア</button>
+<input type=text id=searchbox placeholder="フィルター"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="main"></div>
 
 <div id="src">
-DATA: CC BY Code for Japan <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/edit#gid=0>企業などによる支援一覧</a> *提供されているサービスを公開資料を基に整理したものであり、支援サービスをすべて網羅しているわけではありません。また、空欄は公開情報に明確に情報が記載されていないため空欄にしており、その内容がないというわけではありません。またサービスの問い合わせ等は直接支援企業にお問い合わせ下さい。<br>
-APP： CC BY Code for Japan, <a href=https://github.com/codeforjapan/supportmenu-vs-covid19>src on GitHub</a> (<a href='https://fukuno.jig.jp/'>@taisukef</a>)<br>
-CHAR: CC BY <a href=https://twitter.com/inuno__ke>Shimoken</a><br>
+Data: CC BY Code for Japan <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/edit#gid=0>企業などによる支援一覧</a><div class=append>提供されているサービスを公開資料を基に整理したものであり、支援サービスをすべて網羅しているわけではありません。また、空欄は公開情報に明確に情報が記載されていないため空欄にしており、その内容がないというわけではありません。またサービスの問い合わせ等は直接支援企業にお問い合わせ下さい。</div>
+App：CC BY Code for Japan, <a href=https://github.com/codeforjapan/supportmenu-vs-covid19>src on GitHub</a> (<a href='https://fukuno.jig.jp/'>@taisukef</a>)<br>
+Design: CC BY <a href=https://howmori.org/>HOWMORI</a> <a href=https://twitter.com/howmori>Takuya Yamagata</a><br>
 </div>
 
 </div>
