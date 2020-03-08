@@ -18,20 +18,27 @@ window.onload = async function() {
 	const data = await fetchGoogleSpreadSheet2(key)
 //	console.log(data[0])
 
+	const addTag = function(tag) {
+		const div = create('div')
+		div.textContent = tag
+		toptags.appendChild(div)
+		div.onclick = function() {
+			searchbox.value = this.textContent
+			show()
+		}
+	}
 	const tags = []
 	for (const d of data) {
-		const tag = d['分野']
-		if (tags.indexOf(tag) == -1) {
-			tags.push(tag)
-			const div = create('div')
-			div.textContent = tag
-			toptags.appendChild(div)
-			div.onclick = function() {
-				searchbox.value = this.textContent
-				show()
+		//const tag2 = [ d['分野'], d['キーワード'] ]
+		const tag2 = [ d['分野'] ]
+		for (const tag of tag2) { 
+			if (tags.indexOf(tag) == -1) {
+				tags.push(tag)
+				addTag(tag)
 			}
 		}
 	}
+	addTag('テレワーク')
 
 
 
@@ -188,6 +195,14 @@ h2 {
 .searchboxid {
 	text-align: center;
 }
+.sitedesc {
+	font-size: 80%;
+	display: inline-block;
+	width: 70vw;
+}
+.sitedesc > a {
+	color: black !important;
+}
 .description {
 	margin-bottom: .8em;
 }
@@ -223,13 +238,15 @@ h2 {
 
 <h1 id=title><img src=title.png alt='VS COVID-19'><div class=subtitle>民間支援情報ナビ</div></h1>
 <div class="searchboxid">
+	<span class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出展:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</span>
 	<input type=text id=searchbox placeholder="フィルター"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="toptags" class=tags></div>
 <div id="main"></div>
 
 <div id="src">
-Data: CC BY Code for Japan <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/edit#gid=0>企業などによる支援一覧</a><div class=append>提供されているサービスを公開資料を基に整理したものであり、支援サービスをすべて網羅しているわけではありません。また、空欄は公開情報に明確に情報が記載されていないため空欄にしており、その内容がないというわけではありません。またサービスの問い合わせ等は直接支援企業にお問い合わせ下さい。</div>
+Data: CC0 <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>企業などによる支援一覧</a><br>
+<div class=append>提供されているサービスを公開資料を基に整理したものであり、支援サービスをすべて網羅しているわけではありません。また、空欄は公開情報に明確に情報が記載されていないため空欄にしており、その内容がないというわけではありません。またサービスの問い合わせ等は直接支援企業にお問い合わせ下さい。</div>
 App：CC BY Code for Japan, <a href=https://github.com/codeforjapan/supportmenu-vs-covid19>src on GitHub</a> (<a href='https://fukuno.jig.jp/'>@taisukef</a>)<br>
 Design: CC BY <a href=https://howmori.org/>HOWMORI</a> <a href=https://twitter.com/howmori>Takuya Yamagata</a><br>
 </div>
