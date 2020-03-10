@@ -28,10 +28,15 @@ window.onload = async function() {
 		for (const tag of tag2) { 
 			if (tags.indexOf(tag) == -1) {
 				tags.push(tag)
-				addTag(tag)
 			}
 		}
 	}
+	tags.sort()
+	for (const tag of tags) {
+		if (tag.indexOf("その他") == -1)
+			addTag(tag)
+	}
+	addTag('その他')
 	//addTag('テレワーク')
 
 	const items = []
