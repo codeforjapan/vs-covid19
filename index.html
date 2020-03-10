@@ -10,6 +10,7 @@ window.onload = async function() {
 	const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
 	const data = await fetchGoogleSpreadSheet(key)
 //	console.log(data[0])
+	shuffle(data)
 
 	const addTag = function(tag) {
 		const div = create('div')
@@ -23,7 +24,7 @@ window.onload = async function() {
 	const tags = []
 	for (const d of data) {
 		//const tag2 = [ d['分野'], d['キーワード'] ]
-		const tag2 = [ d['分野'] ]
+		const tag2 = d['分野'].split(',')
 		for (const tag of tag2) { 
 			if (tags.indexOf(tag) == -1) {
 				tags.push(tag)
@@ -87,7 +88,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 				<div class=from>提供: ${d['企業等']}</div>
 				<div class=fee>費用等: ${d['無料/有料']}</div>
 				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
-				<div class=id>情報源: ${d['情報源']}</div>
+				<div class=id>情報源: ${d['情報源']} (発表日付 ${d['発表日付']})</div>
 
 				<div class=tags>
 				<div class=type>${d['分野']}</div>
@@ -232,6 +233,17 @@ const clear = function(id) {
 	}
 	div.scrollTop = 0
 	div.scrollLeft = 0
+}
+const rnd = function(n) {
+	return Math.floor(Math.random() * n)
+}
+const shuffle = function(array) {
+	for (let i = 0; i < array.length; i++) {
+		const n = rnd(array.length)
+		const tmp = array[i]
+		array[i] = array[n]
+		array[n] = tmp
+	}
 }
 </script>
 <style>
