@@ -8,6 +8,10 @@
 
 window.onload = async function() {
 	// 静岡県版データセット（CSV出力): https://docs.google.com/spreadsheets/d/e/2PACX-1vS92FFvTP6VBPu-ZHnJOYitgzQY0gyKCiOBWJoyLkkV4lIQ4Se6rGxgMVP7pFLOoG4ywi7l43TR0Ou9/pub?gid=1523639335&single=true&output=csv
+
+	const key = '2PACX-1vS92FFvTP6VBPu-ZHnJOYitgzQY0gyKCiOBWJoyLkkV4lIQ4Se6rGxgMVP7pFLOoG4ywi7l43TR0Ou9'
+	const sheetgid = '1523639335'
+	const data = await fetchGoogleSpreadSheet(key, sheetgid)
 //	console.log(data[0])
 
 	const addTag = function(tag) {
@@ -237,7 +241,7 @@ const clear = function(id) {
 body {
 	font-family: sans-serif;
 	margin: 0;
-	background-color: #F6C744;
+	background-color: #4B9AE2;
 }
 input[type=text] {
 	width: 60vw;
@@ -271,6 +275,10 @@ h1 img {
 	color: #333 !important;
 	text-decoration: none;
 }
+.localize_title{
+	color #555555;
+	font-size:2vw;
+}
 h2 {
 	background-color: #F7F8F4;
 	padding: .2em 0em .5em 0em;
@@ -290,7 +298,7 @@ h2 {
 /*	margin: .5em;*/
 }
 .url {
-	background-color: #F6C744;
+	background-color: #ABCFEF;
 	border-radius: 2vw;
 	font-weight: bold;
 	text-align: center;
@@ -347,19 +355,20 @@ h2 {
 </head>
 <body>
 
-<h1 id=title><img src=title.png alt='VS COVID-19'><div class=subtitle><a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93>#民間支援情報ナビ</a></div></h1>
+<h1 id=title><img src=title.png alt='VS COVID-19'><div class=subtitle><a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93>#民間支援情報ナビ</a><span class="localize_title"> For 静岡県版（仮作成中）</span></div></h1>
 <div class="searchboxid">
-	<span class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出展:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</span>
+	<span class=sitedesc>静岡県内の、企業等による新型コロナウイルス感染症対策支援サービスをまとめました。<br>（出展:<a href=hhttps://docs.google.com/spreadsheets/d/1GuGZIv8ptMl9-4FDDN7GQEAYhMQptpMRrEBP9FXcQSQ/edit#gid=1523639335>静岡県版有志作成オープンデータ</a>, データフォーマット利用:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</span>
 	<input type=text id=searchbox placeholder="検索する単語をご入力ください"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="toptags" class=tags></div>
 <div id="main" class="container"></div>
 
 <div id="src">
-Data: <a href=https://creativecommons.jp/sciencecommons/aboutcc0/>CC0</a> <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>企業などによる支援一覧</a><br>
+Data: <a href=https://creativecommons.jp/sciencecommons/aboutcc0/>CC0</a> <a href=https://docs.google.com/spreadsheets/d/1GuGZIv8ptMl9-4FDDN7GQEAYhMQptpMRrEBP9FXcQSQ/edit?usp=sharing/>企業などによる支援一覧 静岡県版</a><br>
 <div class=append>※政府の公開する企業等による支援情報のオープンデータに加え、提供されているサービスを公開資料を基に整理したものであり、支援サービスをすべて網羅しているわけではありません。また、空欄は公開情報に明確に情報が記載されていないため空欄にしており、その内容がないというわけではありません。またサービスの問い合わせ等は直接支援企業にお問い合わせ下さい。推奨ブラウザは、Chrome/Safariの最新版です。ブラウザによっては、動作しないことがあります。（<a href=https://www.meti.go.jp/press/2019/03/20200309004/20200309004.html>経産省 ニュースリリース</a>、<a href=https://www.soumu.go.jp/menu_news/s-news/01ryutsu02_02000267.html>総務省 広報・報道</a>）</div>
 App：VS COVID-19 <a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93>#民間支援情報ナビ</a> - <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a href=https://www.code4japan.org/>Code for Japan</a> <a href='https://fukuno.jig.jp/'>@taisukef</a> (<a href=https://github.com/codeforjapan/vs-covid19>src on GitHub</a>)<br>
 Design: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a href=https://howmori.org/>HOWMORI</a> <a href=https://twitter.com/howmori>Takuya Yamagata</a><br>
+静岡県版サイト作成: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a>　<a href="https://twitter.com/hrs_sano645">Hiroshi sano</a> <a href="https://github.com/hrsano645/vs-covid19/tree/for-shizuoka-custom">（src on github）</a>
 </div>
 
 </div>
