@@ -7,8 +7,7 @@
 <script>"use strict"
 
 window.onload = async function() {
-	const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
-	const data = await fetchGoogleSpreadSheet(key)
+	// 静岡県版データセット（CSV出力): https://docs.google.com/spreadsheets/d/e/2PACX-1vS92FFvTP6VBPu-ZHnJOYitgzQY0gyKCiOBWJoyLkkV4lIQ4Se6rGxgMVP7pFLOoG4ywi7l43TR0Ou9/pub?gid=1523639335&single=true&output=csv
 //	console.log(data[0])
 
 	const addTag = function(tag) {
@@ -212,8 +211,8 @@ const fetchViaProxy = async function(url) {
 	const data = await (await fetch(proxyurl)).text()
 	return data
 }
-const fetchGoogleSpreadSheet = async function(key) {
-	const csvurl = `https://docs.google.com/spreadsheets/d/e/${key}/pub?gid=0&single=true&output=csv`
+const fetchGoogleSpreadSheet = async function(key, sheetgid) {
+	const csvurl = `https://docs.google.com/spreadsheets/d/e/${key}/pub?gid=${sheetgid}&single=true&output=csv`
 	const csv = await fetchViaProxy(csvurl)
 	const data = convertCSVtoArray(csv)
 	//data.shift()
