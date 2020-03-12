@@ -387,6 +387,9 @@ h2 {
 .append {
 	font-size: 70%;
 }
+#qrcodecontainer {
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -407,7 +410,7 @@ App：VS COVID-19 <a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%
 Design: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a href=https://howmori.org/>HOWMORI</a> <a href=https://twitter.com/howmori>Takuya Yamagata</a><br>
 </div>
 
-</div>
+<div id=qrcodecontainer><img id=qrcode><script>addEventListener("load", () => qrcode.src = "https://chart.apis.google.com/chart?chs=140x140&cht=qr&chl=" + encodeURIComponent(document.location))</script></div>
 
 </body>
 </html>
