@@ -12,7 +12,7 @@ window.onload = async function() {
 	const key = '2PACX-1vS92FFvTP6VBPu-ZHnJOYitgzQY0gyKCiOBWJoyLkkV4lIQ4Se6rGxgMVP7pFLOoG4ywi7l43TR0Ou9'
 	const sheetgid = '1523639335'
 	const data = await fetchGoogleSpreadSheet(key, sheetgid)
-//	console.log(data[0])
+	shuffle(data)
 
 	const addTag = function(tag) {
 		const div = create('div')
@@ -26,25 +26,37 @@ window.onload = async function() {
 	const tags = []
 	for (const d of data) {
 		//const tag2 = [ d['分野'], d['キーワード'] ]
-		const tag2 = [ d['分野'] ]
-		for (const tag of tag2) { 
+		const tag2 = d['分野'].split(',')
+		for (let tag of tag2) { 
+			tag = tag.trim()
+			if (tag == '教育・学習支援')
+				tag = '教育、学習支援'
 			if (tags.indexOf(tag) == -1) {
 				tags.push(tag)
-				addTag(tag)
 			}
 		}
 	}
+	tags.sort()
+	for (const tag of tags) {
+		if (tag.indexOf("その他") == -1)
+			addTag(tag)
+	}
+	addTag('その他')
 	//addTag('テレワーク')
 
 	const items = []
 	let bkkey = null
+	let bkindflg = forindivisual.checked
 	const show = function() {
 		const key = searchbox.value
-		if (bkkey == key)
+		const indflg = forindivisual.checked
+		if (bkkey == key && bkindflg == indflg)
 			return
 		bkkey = key
+		bkindflg = indflg
 		clear(main)
-		document.location.hash = '#' + encodeURIComponent(key)
+		document.location.hash = '#' + encodeURIComponent(key + (indflg ? " 個人" : "")) 
+		let cnt = 0
 		A: for (const d of data) {
 			if (key) {
 				const keys = key.replace(/　/g, ' ').split(' ')
@@ -60,6 +72,10 @@ window.onload = async function() {
 						continue A
 				}
 			}
+			if (indflg && d['対象者'].indexOf('個人') == -1)
+				continue A
+			
+			cnt++
 			const div = create('div')
 			div.className = "item"
 			/*
@@ -90,7 +106,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 				<div class=from>提供: ${d['企業等']}</div>
 				<div class=fee>費用等: ${d['無料/有料']}</div>
 				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
-				<div class=id>情報源: ${d['情報源']}</div>
+				<div class=id>情報源: ${d['情報源']} (発表日付 ${d['発表日付']})</div>
 
 				<div class=tags>
 				<div class=type>${d['分野']}</div>
@@ -111,6 +127,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 			}
 			main.appendChild(div)
 		}
+		total.textContent = cnt + "件"
 	}
 	searchbox.onkeyup = searchbox.onchange = show
 	if (window['btnclear']) {
@@ -120,8 +137,15 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 		}
 	}
 	if (document.location.hash.length > 1) {
-		searchbox.value = decodeURIComponent(document.location.hash.substring(1))
+		const key = decodeURIComponent(document.location.hash.substring(1))
+		if (key.endsWith(" 個人")) {
+			searchbox.value = key.substring(0, key.length - 3)
+			forindivisual.checked = true
+		} else {
+			searchbox.value = key
+		}
 	}
+	forindivisual.onchange = show
 
 	show()
 }
@@ -236,6 +260,17 @@ const clear = function(id) {
 	div.scrollTop = 0
 	div.scrollLeft = 0
 }
+const rnd = function(n) {
+	return Math.floor(Math.random() * n)
+}
+const shuffle = function(array) {
+	for (let i = 0; i < array.length; i++) {
+		const n = rnd(array.length)
+		const tmp = array[i]
+		array[i] = array[n]
+		array[n] = tmp
+	}
+}
 </script>
 <style>
 body {
@@ -275,6 +310,21 @@ h1 img {
 	color: #333 !important;
 	text-decoration: none;
 }
+#checekboxes {
+	text-align: center;
+}
+input[type="checkbox"] {
+	border-color: #aaa;
+	font-size: 120%;
+}
+label {
+	display: inline-block;
+	font-size: 80%;
+}
+#total {
+	margin-left: 1.5em;
+	font-size: 80%;
+}
 .localize_title{
 	color #555555;
 	font-size:2vw;
@@ -293,9 +343,6 @@ h2 {
 	padding: 1em;
 	margin: 1em;
 	line-height: 1.8em;
-}
-.item > div {
-/*	margin: .5em;*/
 }
 .url {
 	background-color: #ABCFEF;
@@ -338,10 +385,6 @@ h2 {
 	margin: .5em 0.2em;
 	cursor: pointer;
 }
-.place {
-}
-.dete {
-}
 #src {
 	margin: .5em;
 }
@@ -350,6 +393,9 @@ h2 {
 }
 .append {
 	font-size: 70%;
+}
+#qrcodecontainer {
+	text-align: center;
 }
 </style>
 </head>
@@ -361,6 +407,7 @@ h2 {
 	<input type=text id=searchbox placeholder="検索する単語をご入力ください"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="toptags" class=tags></div>
+<div id="checekboxes"><label><input type=checkbox id=forindivisual>個人向けのみ</label><span id=total></span></div>
 <div id="main" class="container"></div>
 
 <div id="src">
@@ -371,7 +418,7 @@ Design: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a
 静岡県版サイト作成: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a>　<a href="https://twitter.com/hrs_sano645">Hiroshi sano</a> <a href="https://github.com/hrsano645/vs-covid19/tree/for-shizuoka-custom">（src on github）</a>
 </div>
 
-</div>
+<div id=qrcodecontainer><img id=qrcode><script>addEventListener("load", () => qrcode.src = "https://chart.apis.google.com/chart?chs=140x140&cht=qr&chl=" + encodeURIComponent(document.location))</script></div>
 
 </body>
 </html>
