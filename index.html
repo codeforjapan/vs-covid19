@@ -11,6 +11,31 @@ window.onload = async function() {
 	const data = await fetchGoogleSpreadSheet(key)
 	shuffle(data)
 
+	/*
+	const targets = []
+	for (const d of data) {
+		const t = d['対象者']	
+		if (targets.indexOf(t) == -1) {
+			targets.push(t)
+		}
+	}
+	console.log(targets)
+	*/
+	const chktarget = {
+		forindivisual: s => s.indexOf('個人') >= 0 && s.indexOf('個人ではな') == -1,
+		forcompany: s => s.indexOf('企業') >= 0 || s.indexOf('法人') >= 0,
+		fororgan: s => s.indexOf('機関') >= 0
+	}
+	chktarget.forother = function(s) {
+		for (const chk in chktarget) {
+			if (chk != 'forother') {
+				if (chktarget[chk](s))
+					return false
+			}
+		}
+		return true
+	}
+
 	const addTag = function(tag) {
 		const div = create('div')
 		div.textContent = tag
@@ -42,17 +67,26 @@ window.onload = async function() {
 	//addTag('テレワーク')
 
 	const items = []
-	let bkkey = null
-	let bkindflg = forindivisual.checked
 	const show = function() {
 		const key = searchbox.value
-		const indflg = forindivisual.checked
-		if (bkkey == key && bkindflg == indflg)
-			return
-		bkkey = key
-		bkindflg = indflg
 		clear(main)
-		document.location.hash = '#' + encodeURIComponent(key + (indflg ? " 個人" : "")) 
+
+		let hash = key
+		let allflg = true
+		let alloffflg = true
+		for (const chk in chktarget) {
+			const chkbox = document.getElementById(chk)
+			if (chkbox.checked) {
+				const text = chkbox.parentElement.textContent
+				hash += " " + text
+				alloffflg = false
+			} else {
+				allflg = false
+			}
+		}
+		if (allflg)
+			hash = key
+		document.location.hash = hash.length > 0 ? '#' + encodeURIComponent(hash) : ""
 		let cnt = 0
 		A: for (const d of data) {
 			if (key) {
@@ -69,8 +103,17 @@ window.onload = async function() {
 						continue A
 				}
 			}
-			if (indflg && d['対象者'].indexOf('個人') == -1)
-				continue A
+			if (!alloffflg) {
+				const target = d['対象者']
+				let targetflg = false
+				for (const chk in chktarget) {
+					if (document.getElementById(chk).checked && chktarget[chk](target)) {
+						targetflg = true
+					}
+				}
+				if (!targetflg)
+					continue A
+			}
 			
 			cnt++
 			const div = create('div')
@@ -101,6 +144,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 				<h2>${d['サービス名称']}</h2>
 				<div class=description>${d['詳細']}</div>
 				<div class=from>提供: ${d['企業等']}</div>
+				<div class=target>対象: ${d['対象者']}</div>
 				<div class=fee>費用等: ${d['無料/有料']}</div>
 				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
 				<div class=id>情報源: ${d['情報源']} (発表日付 ${d['発表日付']})</div>
@@ -109,12 +153,11 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 				<div class=type>${d['分野']}</div>
 				<div class=service>${d['サービス分類']}</div>
 				<div class=keyword>${d['キーワード']}</div>
-				<div class=target>${d['対象者']}</div>
 				</div>
 
 				<div class=url><a href=${d['URL']}>アクセスしてみる</a></div>
 			`
-			const SET = { '.type': '分野', '.service': 'サービス分類', '.keyword': 'キーワード', '.target': "対象者" }
+			const SET = { '.type': '分野', '.service': 'サービス分類', '.keyword': 'キーワード' }
 			for (const s in SET) {
 				const sname = SET[s]
 				div.querySelector(s).onclick = function() {
@@ -124,25 +167,37 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 			}
 			main.appendChild(div)
 		}
-		total.textContent = cnt + "件"
+		total.textContent = `${cnt}件 / ${data.length}件`
 	}
 	searchbox.onkeyup = searchbox.onchange = show
+	searchbox.onfocus = function() {
+		this.select()
+	}
 	if (window['btnclear']) {
 		btnclear.onclick = function() {
 			searchbox.value = ''
 			show()
 		}
 	}
+
+	let chkflg = false
 	if (document.location.hash.length > 1) {
-		const key = decodeURIComponent(document.location.hash.substring(1))
-		if (key.endsWith(" 個人")) {
-			searchbox.value = key.substring(0, key.length - 3)
-			forindivisual.checked = true
-		} else {
-			searchbox.value = key
+		let key = decodeURIComponent(document.location.hash.substring(1))
+		for (const chk in chktarget) {
+			const chkbox = document.getElementById(chk)
+			const lbl = chkbox.parentElement.textContent
+			if (key.endsWith(" " + lbl)) {
+				key = key.substring(0, key.length - 1 - lbl.length)
+				chkbox.checked = true
+				chkflg = true
+			}
 		}
+		searchbox.value = key
 	}
-	forindivisual.onchange = show
+	for (const chk in chktarget) {
+		const chkbox = document.getElementById(chk)
+		chkbox.onchange = show
+	}
 
 	show()
 }
@@ -309,6 +364,7 @@ h1 img {
 }
 #checekboxes {
 	text-align: center;
+	font-size: 80%;
 }
 input[type="checkbox"] {
 	border-color: #aaa;
@@ -316,11 +372,11 @@ input[type="checkbox"] {
 }
 label {
 	display: inline-block;
-	font-size: 80%;
 }
 #total {
-	margin-left: 1.5em;
+	text-align: center;
 	font-size: 80%;
+	margin-bottom: .5em;
 }
 h2 {
 	background-color: #F7F8F4;
@@ -399,12 +455,18 @@ h2 {
 <body>
 
 <h1 id=title><img src=title.png alt='VS COVID-19'><div class=subtitle><a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93>#民間支援情報ナビ</a></div></h1>
+<div id=total></div>
 <div class="searchboxid">
 	<span class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</span>
 	<input type=text id=searchbox placeholder="検索する単語をご入力ください"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="toptags" class=tags></div>
-<div id="checekboxes"><label><input type=checkbox id=forindivisual>個人向けのみ</label><span id=total></span></div>
+<div id="checekboxes">対象：
+	<label><input type=checkbox id=forindivisual>個人</label>
+	<label><input type=checkbox id=forcompany>企業</label>
+	<label><input type=checkbox id=fororgan>機関</label>
+	<label><input type=checkbox id=forother>その他</label>
+</div>
 <div id="main" class="container"></div>
 
 <div id="note">
