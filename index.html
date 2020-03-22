@@ -9,6 +9,134 @@
 <meta property="og:image" content="https://vscovid19.code4japan.org/vscovid19.png"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="format-detection" content="telephone=no"/>
+<style>
+body {
+	font-family: sans-serif;
+	font-size: 1.5vmax;
+	margin: 0;
+	background-color: #F6C744;
+}
+input[type=text] {
+	max-width: 1000px;
+	width: 60vw;
+	margin: .5em .2em 0.2em .5em;
+	font-size: 24px;
+	border: 2px solid black;
+	line-height: 1.3em;
+	padding: 0.1em .3em;
+}
+button {
+	margin: .5em .2em 0em .2em;
+	font-size: 24px;
+	border: 2px solid black;
+	line-height: 1.3em;
+}
+h1 {
+	margin: 0;
+	padding: .8em .3em 0.1em .3em;
+	color: white;
+	text-align: center;
+	font-size: 7vw;
+}
+h1 img {
+	width: 50vw;
+}
+.subtitle {
+	color: #333;
+	font-size: 3vw;
+}
+.subtitle > a {
+	color: #333 !important;
+	text-decoration: none;
+}
+#checekboxes {
+	text-align: center;
+	font-size: 80%;
+}
+input[type="checkbox"] {
+	border-color: #aaa;
+	font-size: 120%;
+}
+label {
+	display: inline-block;
+}
+#total {
+	text-align: center;
+	font-size: 80%;
+	margin-bottom: .5em;
+}
+h2 {
+	background-color: #F7F8F4;
+	padding: .2em 0em .5em 0em;
+	margin: 0;
+}
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+.item {
+	background-color: #F5F5F5;
+	padding: 1em;
+	margin: 1em;
+	line-height: 1.8em;
+}
+.url {
+	background-color: #F6C744;
+	border-radius: 2vw;
+	font-weight: bold;
+	text-align: center;
+	padding: .5em;
+	margin-bottom: 1em;
+}
+.url > a {
+	display: block;
+	text-decoration: none;
+	color: black !important;
+}
+.searchboxid {
+	text-align: center;
+}
+.sitedesc {
+	font-size: 80%;
+	display: inline-block;
+}
+.sitedesc > a {
+	color: black !important;
+}
+.description {
+	margin-bottom: .8em;
+}
+.tags {
+	text-align: center;
+	margin: .6em;
+}
+.tags > div {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 0 .3em;
+	font-size: 80%;
+	line-height: 1.8em;
+	background-color: white;
+	margin: .5em 0.2em;
+	cursor: pointer;
+}
+#src {
+	margin: .5em;
+}
+#src a {
+	color: black !important;
+}
+#note {
+	font-size: 70%;
+	margin: 1em;
+}
+#note a {
+	color: black !important;
+}
+#qrcodecontainer {
+	text-align: center;
+}
+</style>
 <script>"use strict"
 
 window.onload = async function() {
@@ -329,134 +457,6 @@ const shuffle = function(array) {
 	}
 }
 </script>
-<style>
-body {
-	font-family: sans-serif;
-	font-size: .8vmax;
-	margin: 0;
-	background-color: #F6C744;
-}
-input[type=text] {
-  max-width: 1000px;
-	width: 60vw;
-	margin: .5em .2em 0.2em .5em;
-	font-size: 24px;
-	border: 2px solid black;
-	line-height: 1.3em;
-	padding: 0.1em .3em;
-}
-button {
-	margin: .5em .2em 0em .2em;
-	font-size: 24px;
-	border: 2px solid black;
-	line-height: 1.3em;
-}
-h1 {
-	margin: 0;
-	padding: .8em .3em 0.1em .3em;
-	color: white;
-	text-align: center;
-	font-size: 7vw;
-}
-h1 img {
-	width: 50vw;
-}
-.subtitle {
-	color: #333;
-	font-size: 3vw;
-}
-.subtitle > a {
-	color: #333 !important;
-	text-decoration: none;
-}
-#checekboxes {
-	text-align: center;
-	font-size: 80%;
-}
-input[type="checkbox"] {
-	border-color: #aaa;
-	font-size: 120%;
-}
-label {
-	display: inline-block;
-}
-#total {
-	text-align: center;
-	font-size: 80%;
-	margin-bottom: .5em;
-}
-h2 {
-	background-color: #F7F8F4;
-	padding: .2em 0em .5em 0em;
-	margin: 0;
-}
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.item {
-	background-color: #F5F5F5;
-	padding: 1em;
-	margin: 1em;
-	line-height: 1.8em;
-}
-.url {
-	background-color: #F6C744;
-	border-radius: 2vw;
-	font-weight: bold;
-	text-align: center;
-	padding: .5em;
-	margin-bottom: 1em;
-}
-.url > a {
-	display: block;
-	text-decoration: none;
-	color: black !important;
-}
-.searchboxid {
-	text-align: center;
-}
-.sitedesc {
-	font-size: 80%;
-	display: inline-block;
-}
-.sitedesc > a {
-	color: black !important;
-}
-.description {
-	margin-bottom: .8em;
-}
-.tags {
-	text-align: center;
-	margin: .6em;
-}
-.tags > div {
-	display: inline-block;
-	border: 1px solid black;
-	padding: 0 .3em;
-	font-size: 80%;
-	line-height: 1.8em;
-	background-color: white;
-	margin: .5em 0.2em;
-	cursor: pointer;
-}
-#src {
-	margin: .5em;
-}
-#src a {
-	color: black !important;
-}
-#note {
-	font-size: 70%;
-	margin: 1em;
-}
-#note a {
-	color: black !important;
-}
-#qrcodecontainer {
-	text-align: center;
-}
-</style>
 </head>
 <body>
 
@@ -464,7 +464,7 @@ h2 {
 <div class="container">
 <div id=total></div>
 <div class="searchboxid">
-	<span class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</span>
+	<div class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</div>
 	<input type=text id=searchbox placeholder="検索する単語をご入力ください"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="toptags" class=tags></div>
