@@ -332,10 +332,12 @@ const shuffle = function(array) {
 <style>
 body {
 	font-family: sans-serif;
+	font-size: .8vmax;
 	margin: 0;
 	background-color: #F6C744;
 }
 input[type=text] {
+  max-width: 1000px;
 	width: 60vw;
 	margin: .5em .2em 0.2em .5em;
 	font-size: 24px;
@@ -417,7 +419,6 @@ h2 {
 .sitedesc {
 	font-size: 80%;
 	display: inline-block;
-	width: 80vw;
 }
 .sitedesc > a {
 	color: black !important;
@@ -460,6 +461,7 @@ h2 {
 <body>
 
 <h1 id=title><img src=title.png alt='VS COVID-19'><div class=subtitle><a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93>#民間支援情報ナビ</a></div></h1>
+<div class="container">
 <div id=total></div>
 <div class="searchboxid">
 	<span class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</span>
@@ -472,7 +474,7 @@ h2 {
 	<label><input type=checkbox id=fororgan>機関</label>
 	<label><input type=checkbox id=forother>その他</label>
 </div>
-<div id="main" class="container"></div>
+<div id="main"></div>
 
 <div id="note">
 ※ 各社／団体のプライバシーポリシーをお読みの上、サービス利用をご判断ください。特に個人でご利用される場合、ご家族でよくご相談した上でのご判断をお願いします。<br>
@@ -485,6 +487,7 @@ Design: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a
 </div>
 
 <div id=qrcodecontainer><img id=qrcode><script>addEventListener("load", () => qrcode.src = "https://chart.apis.google.com/chart?chs=140x140&cht=qr&chl=" + encodeURIComponent(document.location))</script></div>
+</div>
 
 </body>
 </html>
