@@ -151,8 +151,8 @@ h2 {
 
 window.onload = async function() {
 	const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
-	//const data = await fetchGoogleSpreadSheet(key)
-	const data = await (await fetch('vscovid19-data.json')).json()
+	const data = await fetchGoogleSpreadSheet(key)
+	//const data = await (await fetch('vscovid19-data.json')).json()
 	console.log(data)
 	shuffle(data)
 
