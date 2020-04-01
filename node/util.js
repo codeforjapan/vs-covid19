@@ -300,6 +300,9 @@ exports.makeURL = function(url, relurl) {
     return url + "/" + relurl
   return url.substring(0, n + 8 + 1) + relurl
 }
+exports.sleep = function(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec))
+}
 exports.test = function(t1, t2) {
   if (t1 == t2)
     return

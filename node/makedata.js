@@ -22,7 +22,6 @@ const makeSupport = async function() {
   fs.writeFileSync(fn + '.json', JSON.stringify(json))
   console.log(json.length)
 }
-
 const main = async function() {
   makeSupport()
 }
