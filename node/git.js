@@ -25,13 +25,12 @@ const status = async function() {
 }
 const update = async function() {
   await add('.')
-  await commit()
+  await commit('update data')
   await push()
 }
 const main = async function() {
-  //push()
-//  console.log(await status())
-//  console.log(await commit('update data'))
+  console.log(await add('.'))
+  console.log(await commit('update'))
   console.log(await push())
 }
 if (require.main === module) {
