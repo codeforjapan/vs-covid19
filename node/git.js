@@ -11,6 +11,9 @@ const execCommand = async function(cmd) {
 		})
 	})
 }
+const add = async function(path) {
+  return await execCommand(`git add ${path}`)
+}
 const push = async function() {
   return await execCommand('git push')
 }
@@ -19,6 +22,11 @@ const commit = async function(mes) {
 }
 const status = async function() {
   return await execCommand('git status')
+}
+const update = async function() {
+  await add('.')
+  await commit()
+  await push()
 }
 const main = async function() {
   //push()
@@ -29,5 +37,5 @@ const main = async function() {
 if (require.main === module) {
   main()
 }
-exports.push = push
+exports.update = update
 

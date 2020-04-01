@@ -13,14 +13,20 @@ const fetchGoogleSpreadSheetCSV = async function(key) {
 }
 const makeSupport = async function() {
   const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
-  const fn = '../vscovid19-data'
+  const fn = 'vscovid19-data'
   const csv = await fetchGoogleSpreadSheetCSV(key)
+  const csvold = fs.readFileSync(fn + '.csv')
+  if (csvold == csv) {
+    console.log('no update')
+    return false
+  }
   fs.writeFileSync(fn + '.csv', csv)
   const data = util.convertCSVtoArray(csv)
 	const json = util.csv2json(data)
   console.log(json)
   fs.writeFileSync(fn + '.json', JSON.stringify(json))
   console.log(json.length)
+  return true
 }
 const main = async function() {
   makeSupport()
@@ -28,3 +34,4 @@ const main = async function() {
 if (require.main === module) {
   main()
 }
+exports.updateData = makeSupport
