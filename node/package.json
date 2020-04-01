@@ -1,0 +1,16 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "autoupdate.js",
+  "dependencies": {
+    "iconv-lite": "^0.5.1",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
