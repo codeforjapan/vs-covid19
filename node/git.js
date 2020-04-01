@@ -37,4 +37,3 @@ if (require.main === module) {
   main()
 }
 exports.update = update
-
