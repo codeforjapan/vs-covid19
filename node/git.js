@@ -17,6 +17,9 @@ const add = async function(path) {
 const push = async function() {
   return await execCommand('git push')
 }
+const pull = async function() {
+  return await execCommand('git pull')
+}
 const commit = async function(mes) {
   return await execCommand(`git commit -m '${mes}'`)
 }
@@ -24,6 +27,7 @@ const status = async function() {
   return await execCommand('git status')
 }
 const update = async function() {
+  await pull()
   await add('.')
   await commit('update data')
   await push()
