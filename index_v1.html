@@ -156,78 +156,14 @@ h2 {
 	text-align: center;
 }
 </style>
-<script type='module'>
+<script>"use strict"
 
-import util from './util.mjs'
-
-const checkJSON = function(json) {
-  const names = {}
-  for (const d of json) {
-    for (const n in d) {
-      if (names[n] == null) {
-        names[n] = []
-      }
-      const val = d[n]
-      if (names[n].indexOf(val) == -1) {
-        names[n].push(val)
-      }
-    }
-  }
-  console.log(names)
-}
-/*
-分野: "教育、学習支援"
-サービス分類: "サービス提供"
-キーワード: "プログラミング学習"
-サービス名称: "スプリンギン・フェス シーズン1"
-対象者: "個人への提供"
-開始日: "2020-03-02"
-終了日: "2020-04-05"
-期間備考: ""
-無料/有料: "無料"
-導入支援有無: ""
-企業等: "株式会社しくみデザイン"
-詳細: "スプリンギンは無料のビジュアルプログラミングアプリ。「スプリンギン・フェス シーズン1」は休校中でも自宅などでプログラミングに楽しく取り組めるオンラインイベントで、これまでの学びの成果を発揮できるプログラミングコンテストや無料のプログラミング講座のライブ動画配信などを行います。"
-発表日付: "3/2/2020"
-URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
-情報源: "ネット公開情報"
-産業分類: "農業、林業"
-支援内容: "サービス提供"
-有無: "有"
-*/
-
-const fetchData = async function() {
-	const fn = 'vscovid19-data2.csv'
-	const csv = util.decodeCSV(await (await fetch(fn)).text())
-	const headmap = {
-		'サービスの名称（最大40文字）': 'サービス名称',
-		'サービスの対象者': '対象者',
-		'サービスの対象分野': '分野',
-		'サービス概要（最大200文字）': '詳細',
-		'詳細情報URL': 'URL',
-		'情報更新日': '発表日付',
-		'サービス費用': '無料/有料',
-		'企業名等': '企業等',
-		'サービス期間に関して自由に記入してください。（最大２０文字）': '期間備考',
-		'サービス詳細分類': 'サービス分類',
-	}
-	const head = csv[0]
-	for (let i = 0; i < head.length; i++) {
-		const h2 = headmap[head[i]]
-		//console.log(head[i], h2)
-		if (h2) {
-			head[i] = h2
-		}
-	}
-	//console.log(csv)
-	return util.csv2json(csv)
-}
 window.onload = async function() {
-	const data = await fetchData()
-	//console.log(data)
-	//checkJSON(data)
-	
-	util.shuffle(data)
+	//const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
+	//const data = await fetchGoogleSpreadSheet(key)
+	const data = await (await fetch('vscovid19-data.json')).json()
+	console.log(data)
+	shuffle(data)
 
 	/*
 	const targets = []
@@ -255,7 +191,7 @@ window.onload = async function() {
 	}
 
 	const addTag = function(tag) {
-		const div = util.cr('div')
+		const div = create('div')
 		div.textContent = tag
 		toptags.appendChild(div)
 		div.onclick = function() {
@@ -263,18 +199,14 @@ window.onload = async function() {
 			show()
 		}
 	}
-	const splitter = ',、， （）・'
 	const tags = []
 	for (const d of data) {
 		//const tag2 = [ d['分野'], d['キーワード'] ]
-		const tag2 = util.splitString(d['分野'], splitter)
+		const tag2 = d['分野'].split(',')
 		for (let tag of tag2) { 
 			tag = tag.trim()
-			if (tag.endsWith('含む')) {
-				tag = tag.substring(0, tag.length - 2)
-			}
-			//if (tag == '教育・学習支援')
-			//	tag = '教育、学習支援'
+			if (tag == '教育・学習支援')
+				tag = '教育、学習支援'
 			if (tags.indexOf(tag) == -1) {
 				tags.push(tag)
 			}
@@ -291,7 +223,7 @@ window.onload = async function() {
 	const items = []
 	const show = function() {
 		const key = searchbox.value
-		util.clear(main)
+		clear(main)
 
 		let hash = key
 		let allflg = true
@@ -338,7 +270,7 @@ window.onload = async function() {
 			}
 			
 			cnt++
-			const div = util.cr('div')
+			const div = create('div')
 			div.className = "item"
 			/*
 /*
@@ -362,49 +294,29 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 有無: "有"
 */
 // <ruby>${d['http://xmlns.com/foaf/0.1/#name']}<rt>${d['name_yomi']}</rt></ruby>
-// 情報源: ${d['情報源']} (
-			let s = `
+			div.innerHTML = `
 				<h2>${d['サービス名称']}</h2>
 				<div class=description>${d['詳細']}</div>
 				<div class=from>提供: ${d['企業等']}</div>
 				<div class=target>対象: ${d['対象者']}</div>
 				<div class=fee>費用等: ${d['無料/有料']}</div>
 				<div class=span>提供期間: ${d['開始日']}〜${d['終了日']} ${d['期間備考']}</div>
-				<div class=id>発表日付: ${d['発表日付']}</div>
-				<div class=tags>`
-			
-			const tags = []
-			const tagnames = [ '分野', 'サービス分類', 'キーワード' ]
-			for (const name of tagnames) {
-				for (const t of util.splitString(d[name], splitter)) {
-					let tag = t.trim()
-					const n = tag.indexOf('（')
-					if (n >= 0) {
-						tag = tag.substring(0, n)
-					}
-					if (tag.length > 0) {
-						if (tags.indexOf(tag) == -1)
-							tags.push(tag)
-					}
-				}
-			}
-			for (const tag of tags) {
-				s += `<div class=type>${tag}</div>`
-			}
-			s += `	</div>
+				<div class=id>情報源: ${d['情報源']} (発表日付 ${d['発表日付']})</div>
+
+				<div class=tags>
+				<div class=type>${d['分野']}</div>
+				<div class=service>${d['サービス分類']}</div>
+				<div class=keyword>${d['キーワード']}</div>
+				</div>
 
 				<div class=url><a href=${d['URL']}>アクセスしてみる</a></div>
 			`
-			div.innerHTML = s
 			const SET = { '.type': '分野', '.service': 'サービス分類', '.keyword': 'キーワード' }
 			for (const s in SET) {
 				const sname = SET[s]
-				const sel = div.querySelector(s)
-				if (sel) {
-					sel.onclick = function() {
-						searchbox.value = d[sname]
-						show()
-					}
+				div.querySelector(s).onclick = function() {
+					searchbox.value = d[sname]
+					show()
 				}
 			}
 			main.appendChild(div)
@@ -443,6 +355,128 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 
 	show()
 }
+// util
+const convertCSVtoArray = function(s) {
+	const res = []
+	let st = 0
+	let line = []
+	let sb = null
+	if (!s.endsWith("\n"))
+		s += "\n"
+	const len = s.length
+	for (let i = 0; i < len; i++) {
+		let c = s.charAt(i)
+		if (c == '\r')
+			continue
+		if (st == 0) {
+			if (c == '\n') {
+				if (line.length > 0)
+					line.push("")
+				res.push(line)
+				line = []
+			} else if (c == ',') {
+				line.push("")
+			} else if (c == '"') {
+				sb = ""
+				st = 2
+			} else {
+				sb = c
+				st = 1
+			}
+		} else if (st == 1) {
+			if (c == '\n') {
+				line.push(sb)
+				res.push(line)
+				line = []
+				st = 0
+				sb = null
+			} else if (c == ',') {
+				line.push(sb)
+				sb = null
+				st = 0
+			} else {
+				sb += c
+			}
+		} else if (st == 2) {
+			if (c == '"') {
+				st = 3
+			} else {
+				sb += c
+			}
+		} else if (st == 3) {
+			if (c == '"') {
+				sb += c
+				st = 2
+			} else if (c == ',') {
+				line.push(sb)
+				sb = null
+				st = 0
+			} else if (c == '\n') {
+				line.push(sb)
+				res.push(line)
+				line = []
+				st = 0
+				sb = null
+			}
+		}
+	}
+	if (sb != null)
+		line.push(sb)
+	if (line.length > 0)
+		res.push(line)
+	return res
+}
+const csv2json = function(csv) {
+	const res = []
+	const head = csv[0]
+	for (let i = 1; i < csv.length; i++) {
+		const d = {}
+		for (let j = 0; j < head.length; j++) {
+			d[head[j]] = csv[i][j]
+		}
+		res.push(d)
+	}
+	return res
+}
+const fetchViaProxy = async function(url) {
+	//const proxyhost = "https://app.sabae.cc/proxy"
+	const proxyhost = "http://localhost:8003/proxy"
+	const proxyurl = proxyhost + "/?url=" + encodeURIComponent(url)
+	const data = await (await fetch(proxyurl)).text()
+	return data
+}
+const fetchGoogleSpreadSheet = async function(key) {
+	const csvurl = `https://docs.google.com/spreadsheets/d/e/${key}/pub?gid=0&single=true&output=csv`
+	const csv = await fetchViaProxy(csvurl)
+	const data = convertCSVtoArray(csv)
+	//data.shift()
+	return csv2json(data)
+}
+const create = function(tag, cls) {
+	var res = document.createElement(tag)
+	if (cls != null)
+		res.className = cls
+	return res
+}
+const clear = function(id) {
+	var div = typeof id == "string" ? get(id) : id
+	while (div.hasChildNodes()) {
+		div.removeChild(div.lastChild)
+	}
+	div.scrollTop = 0
+	div.scrollLeft = 0
+}
+const rnd = function(n) {
+	return Math.floor(Math.random() * n)
+}
+const shuffle = function(array) {
+	for (let i = 0; i < array.length; i++) {
+		const n = rnd(array.length)
+		const tmp = array[i]
+		array[i] = array[n]
+		array[n] = tmp
+	}
+}
 </script>
 </head>
 <body>
@@ -451,7 +485,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 <div class="container">
 <div id=total></div>
 <div class="searchboxid">
-	<div class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:<a href=https://docs.google.com/spreadsheets/d/13ubSinGz78TxqWyYRQoO85OumIle54bxpkig8ggSpCc/edit#gid=0>政府オープンデータ</a>）</div>
+	<div class=sitedesc>企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:<a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>政府オープンデータ</a>）</div>
 	<input type=text id=searchbox placeholder="検索する単語をご入力ください"><!--<button id=btnclear>クリア</button>-->
 </div>
 <div id="toptags" class=tags></div>
@@ -477,7 +511,7 @@ URL: "https://www.shikumi.co.jp/springin-fes-2020-spring/"
 </div>
 
 <div id="src">
-Data: <a href=https://creativecommons.jp/sciencecommons/aboutcc0/>CC0</a> <a href=https://docs.google.com/spreadsheets/d/13ubSinGz78TxqWyYRQoO85OumIle54bxpkig8ggSpCc/edit#gid=0>民間支援情報ナビV2</a> (<a href=index_v1.html>V1</a>)<br>
+Data: <a href=https://creativecommons.jp/sciencecommons/aboutcc0/>CC0</a> <a href=https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/>企業などによる支援一覧</a><br>
 App：VS COVID-19 <a href=https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93>#民間支援情報ナビ</a> - <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a href=https://www.code4japan.org/>Code for Japan</a> <a href='https://fukuno.jig.jp/'>@taisukef</a> (<a href=https://github.com/codeforjapan/vs-covid19>src on GitHub</a>)<br>
 Design: <a href=https://creativecommons.org/licenses/by/4.0/deed.ja>CC BY</a> <a href=https://howmori.org/>HOWMORI</a> <a href=https://twitter.com/howmori>Takuya Yamagata</a><br>
 </div>

@@ -11,9 +11,7 @@ const fetchGoogleSpreadSheetCSV = async function(key) {
   const csv = await fetchText(csvurl)
   return csv
 }
-const makeSupport = async function() {
-  const key = '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL'
-  const fn = 'vscovid19-data'
+const makeSupport = async function(fn, key) {
   const csv = await fetchGoogleSpreadSheetCSV(key)
   let csvold = null
   try {
@@ -37,7 +35,10 @@ const makeSupport = async function() {
   return true
 }
 const main = async function() {
-  makeSupport()
+  // ver1
+  //makeSupport('vscovid19-data', '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL')
+  // ver2 // copy
+  makeSupport('vscovid19-data2', '2PACX-1vSW2YVyhriF2ke8yIat_ebzbItjqFTeMU3G9fTMVh-GnIcJK-PE20oWPP4acJxfrnf_1tgmzozPgxKv')
 }
 if (require.main === module) {
   main()
