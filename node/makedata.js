@@ -38,7 +38,8 @@ const main = async function() {
   // ver1
   //makeSupport('vscovid19-data', '2PACX-1vSFMNp5HcRNOF5MrAujEUWR1dIoX2mncMEWTbPlVAaJqKWiq831-6gnCyI7n_G8YfPqNQXrfwyVjyHL')
   // ver2 // copy
-  makeSupport('vscovid19-data2', '2PACX-1vSW2YVyhriF2ke8yIat_ebzbItjqFTeMU3G9fTMVh-GnIcJK-PE20oWPP4acJxfrnf_1tgmzozPgxKv')
+  //makeSupport('vscovid19-data2', '2PACX-1vSW2YVyhriF2ke8yIat_ebzbItjqFTeMU3G9fTMVh-GnIcJK-PE20oWPP4acJxfrnf_1tgmzozPgxKv')
+  makeSupport('vscovid19-data2', '2PACX-1vSlORQnnr8DqQyn9G-sdI7EJ2SHjZ9vawcfSz4oP1BMufy2vjuSYLTkpE_MpmqvpmF_E1jRcBWA6azD')
 }
 if (require.main === module) {
   main()
