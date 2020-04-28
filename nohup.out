@@ -23783,3 +23783,21 @@ To github.com:codeforjapan/vs-covid19.git
    62d0cab..c4bd48d  master -> master
 sleep 600
 no updates
+warning: CRLF will be replaced by LF in nohup.out.
+The file will have its original line endings in your working directory.
+[master 14aa1a1] update data
+ 1 file changed, 8 insertions(+)
+To github.com:codeforjapan/vs-covid19.git
+   c4bd48d..14aa1a1  master -> master
+sleep 600
+[
+  { '<HTML>': '<HEAD>' },
+  { '<HTML>': '<TITLE>Internal Server Error</TITLE>' },
+  { '<HTML>': '</HEAD>' },
+  { '<HTML>': '<BODY BGCOLOR="#FFFFFF" TEXT="#000000">' },
+  { '<HTML>': '<H1>Internal Server Error</H1>' },
+  { '<HTML>': '<H2>Error 500</H2>' },
+  { '<HTML>': '</BODY>' },
+  { '<HTML>': '</HTML>' }
+]
+8
