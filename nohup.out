@@ -19723,3 +19723,11 @@ and the repository exists.
 (node:20411) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
 (node:20411) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
 no updates
+warning: CRLF will be replaced by LF in nohup.out.
+The file will have its original line endings in your working directory.
+[master e31acbb] update data
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+To github.com:codeforjapan/vs-covid19.git
+   31d7bfa..e31acbb  master -> master
+sleep 600
+no updates

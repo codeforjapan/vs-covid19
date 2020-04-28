@@ -1,1 +1,1 @@
-ps -fu root | grep autoupdate 
+ps -fu root | grep autoupdate_vscovid19
