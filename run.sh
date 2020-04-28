@@ -1,1 +1,1 @@
-nohup node node/autoupdate.js &
+nohup sh node/autoupdate_vscovid19.sh &
