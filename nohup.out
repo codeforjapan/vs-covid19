@@ -44932,3 +44932,17 @@ sleep 600
 362
 warning: CRLF will be replaced by LF in data/vscovid19-data2-20200505223507.csv.
 The file will have its original line endings in your working directory.
+warning: CRLF will be replaced by LF in nohup.out.
+The file will have its original line endings in your working directory.
+warning: CRLF will be replaced by LF in vscovid19-data2.csv.
+The file will have its original line endings in your working directory.
+warning: CRLF will be replaced by LF in data/vscovid19-data2-20200505224514.csv.
+The file will have its original line endings in your working directory.
+[master 3c095cd] update data
+ 5 files changed, 3928 insertions(+), 28 deletions(-)
+ create mode 100644 data/vscovid19-data2-20200505224514.csv
+ create mode 100644 data/vscovid19-data2-20200505224514.json
+To github.com:codeforjapan/vs-covid19.git
+   a763b96..3c095cd  master -> master
+sleep 600
+no updates
