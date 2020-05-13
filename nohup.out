@@ -60922,3 +60922,11 @@ To github.com:codeforjapan/vs-covid19.git
    7092a2b..18ea39d  master -> master
 sleep 600
 no updates
+warning: CRLF will be replaced by LF in nohup.out.
+The file will have its original line endings in your working directory.
+[master e9ee4a2] update data
+ 1 file changed, 8 insertions(+)
+To github.com:codeforjapan/vs-covid19.git
+   18ea39d..e9ee4a2  master -> master
+sleep 600
+no updates
